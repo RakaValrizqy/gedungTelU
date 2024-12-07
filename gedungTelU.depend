@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1733401764 source:d:\study\semester 3\struktur data\tubes\gedungtelu\graph.cpp
+	"graph.h"
+
+1733401764 d:\study\semester 3\struktur data\tubes\gedungtelu\graph.h
+	<iostream>
+
+1733401764 source:d:\study\semester 3\struktur data\tubes\gedungtelu\main.cpp
+	"graph.h"
+
