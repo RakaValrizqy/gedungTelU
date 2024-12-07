@@ -10,6 +10,7 @@
 #define jarak(E) E->jarak
 #define nextJ(E) E->nextJalan
 #define firstG(G) G.firstGedung
+#define firstJ(G) G.firstJalan
 
 using namespace std;
 typedef struct gedung *adrGedung;
@@ -20,10 +21,10 @@ struct gedung {
     string deskripsi;
     bool safety;
     adrGedung nextGedung;
-    adrJalan firstJalan;
 };
 
 struct jalan{
+    adrGedung asalGedung;
     adrGedung destGedung;
     int jarak;
     adrJalan nextJalan;
@@ -31,6 +32,7 @@ struct jalan{
 
 struct graph {
     adrGedung firstGedung;
+    adrJalan firstJalan;
 };
 
 adrGedung createGedung(string nama, string deskripsi); //membuat data gedung
