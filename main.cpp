@@ -4,6 +4,7 @@ int main()
 {
     graph G;
     adrGedung P;
+    adrJalan J;
 
     initGraph(G);
     P = createGedung("TULT", "Telkom University Landmark Tower");
@@ -14,14 +15,18 @@ int main()
 
     P = createGedung("KU3", "Gedung Tokong Nanas");
     addGedung(G, P);
-    showAllGedung(G);
 
     P = createGedung("OPLIB", "Perpustakaan");
     addGedung(G, P);
     showAllGedung(G);
 
-    cout << searchGedung(G, "OPLIB") << endl;
-    cout << searchGedung(G, "FEB");
+    J = createJalan(G,"OPLIB","TULT",5);
+    addJalan(G,J);
+
+    J = createJalan(G,"KU1","TULT",1);
+    addJalan(G,J);
+
+    showAllJalan(G);
     return 0;
 
 }

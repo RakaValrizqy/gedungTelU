@@ -31,9 +31,26 @@ void addGedung(graph &G, adrGedung V) { //menambahkan data gedung ke dalam graph
     }
 }
 
-adrJalan createJalan(adrGedung V,int jarak){ //membuat data jalan
+adrJalan createJalan(graph G, string gedungAsal, string gedungTujuan,int jarak){
     /* Mengembalikan alamat (pointer) dari sebuah jalan baru yang menghubungkan ke gedung V dengan jarak tertentu */
+    adrGedung A = searchGedung(G,gedungAsal);
+    adrGedung T = searchGedung(G,gedungTujuan);
+    adrJalan P;
 
+    if (A == NULL && T == NULL){
+        cout << "Gedung "<< nama(A)<<" dan "<<nama(T)<<" tidak ditemukan"<<endl;
+    } else if (A == NULL){
+        cout << "Gedung "<< nama(A)<<" tidak ditemukan"<<endl;
+    } else if (T == NULL){
+        cout << "Gedung "<< nama(T)<<" tidak ditemukan"<<endl;
+    } else {
+        P = new jalan;
+        asalG(P) = A;
+        destG(P) = T;
+        jarak(P) = jarak;
+        nextJ(P) = NULL;
+    }
+    return P;
 }
 
 adrGedung searchGedung(graph &G, string nama){ //mencari alamat gedung dengan nama gedung = nama
@@ -52,7 +69,15 @@ adrGedung searchGedung(graph &G, string nama){ //mencari alamat gedung dengan na
 void addJalan(graph &G, adrJalan E){ //menambahkan data jalan pada gedung
     /* I.S. Terdefinisi sebuah graph, G, dan sebuah pointer ke jalan, E, yang akan ditambahkan ke dalam graph
     F.S. Jalan baru yang direpresentasikan oleh pointer E telah ditambahkan ke daftar jalan pada simpul/gedung yang sesuai dalam graph G */
-
+    if (firstJ(G)==NULL){
+        firstJ(G) = E;
+    } else {
+        adrJalan P = firstJ(G);
+        while (nextJ(P)!=NULL){
+            P = nextJ(P);
+        }
+        nextJ(P) = E;
+    }
 }
 
 void ruteTerpendek(graph G, adrGedung V1, adrGedung V2){ //mencari dan menampilkan rute terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
@@ -85,4 +110,16 @@ void showGedung(graph G, string nama){ // Menampilkan informasi detail tentang s
     /*I.S. Terdefinisi sebuah graph, G, dan sebuah nama gedung yang ingin ditampilkan
     F.S. Menampilkan informasi gedung yang sesuai dengan nama yang diberikan, atau memberi informasi bahwa gedung dengan nama tersebut tidak ditemukan */
 
+}
+
+void showAllJalan(graph G){
+    if (firstJ(G)==NULL){
+        cout << "Tidak terdapat jalan" << endl;
+    } else {
+        adrJalan P = firstJ(G);
+        while (P != NULL){
+            cout << nama(asalG(P))<<" -> "<< nama(destG(P))<<" "<<jarak(P)<<"km"<<endl;
+            P = nextJ(P);
+        }
+    }
 }
