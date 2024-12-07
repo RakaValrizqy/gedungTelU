@@ -2,19 +2,33 @@
 
 adrGedung createGedung(string nama, string deskripsi) { //membuat data gedung
     /* F.S. Mengembalikan alamat (pointer) dari sebuah gedung baru yang dibuat dengan nama dan deskripsi yang sesuai */
-
+    adrGedung P = new gedung;
+    nama(P) = nama;
+    deskripsi(P) = deskripsi;
+    safety(P) = true;
+    nextG(P) = NULL;
+    return P;
 }
 
 void initGraph(graph &G) { //menginisiasikan graph
     /* I.S. -
     F.S. terdefinisi sebuah graph G dimana firstVertex(G)=nil */
-
+    firstG(G) = NULL;
+    firstJ(G) = NULL;
 }
 
 void addGedung(graph &G, adrGedung V) { //menambahkan data gedung ke dalam graph
     /* I.S. Terdefinisi sebuah graph, G, dan sebuah pointer ke gedung, V, yang akan ditambahkan ke dalam graph
     F.S. Gedung baru yang direpresentasikan oleh pointer V telah ditambahkan sebagai elemen pertama dalam graph G */
-
+    if (firstG(G) == NULL) {
+        firstG(G) = V;
+    } else {
+       adrGedung P = firstG(G);
+       while (nextG(P) != NULL) {
+            P = nextG(P);
+       }
+       nextG(P) = V;
+    }
 }
 
 adrJalan createJalan(adrGedung V,int jarak){ //membuat data jalan
@@ -24,7 +38,15 @@ adrJalan createJalan(adrGedung V,int jarak){ //membuat data jalan
 
 adrGedung searchGedung(graph &G, string nama){ //mencari alamat gedung dengan nama gedung = nama
     /* Mengembalikan alamat gedung yang sesuai dengan nama, atau NULL jika tidak ditemukan */
-
+    adrGedung P = firstG(G);
+    while (P != NULL) {
+        if (nama(P) == nama) {
+            return P;
+        } else {
+            P = nextG(P);
+        }
+    }
+    return NULL;
 }
 
 void addJalan(graph &G, adrJalan E){ //menambahkan data jalan pada gedung
@@ -48,10 +70,19 @@ void ruteAlternatif(graph G, adrGedung V1, adrGedung V2){ //mencari dan menampil
 void showAllGedung(graph G) { // Menampilkan semua gedung yang ada dalam graph G
     /* I.S. Terdefinisi sebuah graph, G, yang berisi data gedung-gedung
     F.S. Menampilkan semua gedung yang ada di dalam graph G */
-
+    if (firstG(G) == NULL) {
+        cout << "Tidak terdapat gedung" << endl;
+    } else {
+        adrGedung P = firstG(G);
+        while (P != NULL) {
+            cout << nama(P) << endl;
+            P = nextG(P);
+        }
+    }
 }
 
 void showGedung(graph G, string nama){ // Menampilkan informasi detail tentang satu gedung tertentu yang dicari
     /*I.S. Terdefinisi sebuah graph, G, dan sebuah nama gedung yang ingin ditampilkan
     F.S. Menampilkan informasi gedung yang sesuai dengan nama yang diberikan, atau memberi informasi bahwa gedung dengan nama tersebut tidak ditemukan */
+
 }
