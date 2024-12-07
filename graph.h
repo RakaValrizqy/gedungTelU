@@ -38,7 +38,7 @@ struct graph {
 adrGedung createGedung(string nama, string deskripsi); //membuat data gedung
 void initGraph(graph &G); //menginisiasikan graph
 void addGedung(graph &G, adrGedung V); //menambahkan data gedung ke dalam graph
-adrJalan createJalan(adrGedung V,int jarak); //membuat data jalan
+adrJalan createJalan(adrGedung V, int jarak); //membuat data jalan
 adrGedung searchGedung(graph &G, string nama); //mencari alamat gedung dengan nama gedung = nama
 void addJalan(graph &G, adrJalan E);//menambahkan data jalan pada gedung
 void ruteTerpendek(graph G, adrGedung V1, adrGedung V2); //mencari dan menampilkan rute terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2

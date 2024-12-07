@@ -55,6 +55,12 @@ void addJalan(graph &G, adrJalan E){ //menambahkan data jalan pada gedung
 
 }
 
+void deleteJalan(graph &G, adrGedung V, adrGedung &Q) {
+    if (firstJ(G) == NULL) {
+        cout << "Tidak ada jalan yang terhubung ke gedung ini." << endl;
+    }
+}
+
 void ruteTerpendek(graph G, adrGedung V1, adrGedung V2){ //mencari dan menampilkan rute terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
      /* I.S. Terdefinisi sebuah graph, G, dan dua gedung (V1 dan V2) yang merupakan titik awal dan tujuan untuk pencarian rute terpendek
     F.S. Menampilkan rute terpendek dari gedung V1 ke gedung V2, jika ada, atau memberi informasi bahwa tidak ada rute yang ditemukan */
