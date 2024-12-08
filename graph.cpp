@@ -31,9 +31,26 @@ void addGedung(graph &G, adrGedung V) { //menambahkan data gedung ke dalam graph
     }
 }
 
-adrJalan createJalan(adrGedung V,int jarak){ //membuat data jalan
+adrJalan createJalan(graph G, string gedungAsal, string gedungTujuan,int jarak){
     /* Mengembalikan alamat (pointer) dari sebuah jalan baru yang menghubungkan ke gedung V dengan jarak tertentu */
+    adrGedung A = searchGedung(G,gedungAsal);
+    adrGedung T = searchGedung(G,gedungTujuan);
+    adrJalan P;
 
+    if (A == NULL && T == NULL){
+        cout << "Gedung "<< nama(A)<<" dan "<<nama(T)<<" tidak ditemukan"<<endl;
+    } else if (A == NULL){
+        cout << "Gedung "<< nama(A)<<" tidak ditemukan"<<endl;
+    } else if (T == NULL){
+        cout << "Gedung "<< nama(T)<<" tidak ditemukan"<<endl;
+    } else {
+        P = new jalan;
+        asalG(P) = A;
+        destG(P) = T;
+        jarak(P) = jarak;
+        nextJ(P) = NULL;
+    }
+    return P;
 }
 
 adrGedung searchGedung(graph &G, string nama){ //mencari alamat gedung dengan nama gedung = nama
@@ -52,12 +69,46 @@ adrGedung searchGedung(graph &G, string nama){ //mencari alamat gedung dengan na
 void addJalan(graph &G, adrJalan E){ //menambahkan data jalan pada gedung
     /* I.S. Terdefinisi sebuah graph, G, dan sebuah pointer ke jalan, E, yang akan ditambahkan ke dalam graph
     F.S. Jalan baru yang direpresentasikan oleh pointer E telah ditambahkan ke daftar jalan pada simpul/gedung yang sesuai dalam graph G */
-
+    if (firstJ(G)==NULL){
+        firstJ(G) = E;
+    } else {
+        adrJalan P = firstJ(G);
+        while (nextJ(P)!=NULL){
+            P = nextJ(P);
+        }
+        nextJ(P) = E;
+    }
 }
 
-void deleteJalan(graph &G, adrGedung V, adrGedung &Q) {
+void deleteJalan(graph G, string gedungAsal, string gedungTujuan) {
+/* I.S. Terdefinisi sebuah graph G yang berisi data jalan antar gedung, gedungAsal dan gedungTujuan adalah nama gedung yang jalannya ingin dihapus.
+F.S. Jalan yang menghubungkan gedungAsal dan gedungTujuan dihapus dari graph G,  Jika jalan tidak ditemukan menampilkan pesan bahwa jalan tidak ada akan ditampilkan */
+    adrJalan prev;
+    adrJalan P;
+
     if (firstJ(G) == NULL) {
-        cout << "Tidak ada jalan yang terhubung ke gedung ini." << endl;
+        cout << "Tidak ada jalan yang terhubung ke gedung ini" << endl;
+    } else {
+        prev = NULL;
+        P = firstJ(G);
+
+        while(P != NULL) {
+            if (nama(asalG(P)) == gedungAsal && nama(destG(P)) == gedungTujuan) {
+                if (prev == NULL) {
+                    firstJ(G) = nextJ(P);
+                } else {
+                    nextJ(prev) = nextJ(P);
+                }
+                cout << "Jalan dari " << gedungAsal << " ke " << gedungTujuan << " telah dihapus" << endl;
+                break;
+            }
+            prev = P;
+            P = nextJ(P);
+        }
+
+        if (P == NULL) {
+            cout << "Jalan dari " << gedungAsal << " ke " << gedungTujuan << " tidak ditemukan" << endl;
+        }
     }
 }
 
@@ -91,4 +142,16 @@ void showGedung(graph G, string nama){ // Menampilkan informasi detail tentang s
     /*I.S. Terdefinisi sebuah graph, G, dan sebuah nama gedung yang ingin ditampilkan
     F.S. Menampilkan informasi gedung yang sesuai dengan nama yang diberikan, atau memberi informasi bahwa gedung dengan nama tersebut tidak ditemukan */
 
+}
+
+void showAllJalan(graph G){
+    if (firstJ(G)==NULL){
+        cout << "Tidak terdapat jalan" << endl;
+    } else {
+        adrJalan P = firstJ(G);
+        while (P != NULL){
+            cout << nama(asalG(P))<<" -> "<< nama(destG(P))<<" "<<jarak(P)<<"km"<<endl;
+            P = nextJ(P);
+        }
+    }
 }
