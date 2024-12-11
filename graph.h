@@ -40,13 +40,15 @@ adrGedung createGedung(string nama, string deskripsi); //membuat data gedung
 void initGraph(graph &G); //menginisiasikan graph
 void addGedung(graph &G, adrGedung V); //menambahkan data gedung ke dalam graph
 adrJalan createJalan(graph G, string gedungAsal, string gedungTujuan,int jarak); //membuat data jalan
-adrGedung searchGedung(graph &G, string nama); //mencari alamat gedung dengan nama gedung = nama
+adrGedung searchGedung(graph G, string nama); //mencari alamat gedung dengan nama gedung = nama
 void addJalan(graph &G, adrJalan E);//menambahkan data jalan pada gedung
-void deleteJalan(graph G, string gedungAsal, string gedungTujuan); //menghapus data jalan
+void deleteJalan(graph &G, string gedungAsal, string gedungTujuan); //menghapus data jalan
 void ruteTerpendek(graph G, adrGedung V1, adrGedung V2); //mencari dan menampilkan rute terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
 void ruteAlternatif(graph G, adrGedung V1, adrGedung V2); //mencari dan menampilkan rute alternatif terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
 void showAllGedung(graph G); // Menampilkan semua gedung yang ada dalam graph G
 void showGedung(graph G, string nama); // Menampilkan informasi detail tentang satu gedung tertentu yang dicari
 void showAllJalan(graph G);
+adrJalan checkConnectedGedung(graph G, adrGedung V);
+void deleteGedung(graph &G,string nama);
 
 #endif // GRAPH_H_INCLUDED

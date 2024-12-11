@@ -53,7 +53,7 @@ adrJalan createJalan(graph G, string gedungAsal, string gedungTujuan,int jarak){
     return P;
 }
 
-adrGedung searchGedung(graph &G, string nama){ //mencari alamat gedung dengan nama gedung = nama
+adrGedung searchGedung(graph G, string nama){ //mencari alamat gedung dengan nama gedung = nama
     /* Mengembalikan alamat gedung yang sesuai dengan nama, atau NULL jika tidak ditemukan */
     adrGedung P = firstG(G);
     while (P != NULL) {
@@ -80,7 +80,7 @@ void addJalan(graph &G, adrJalan E){ //menambahkan data jalan pada gedung
     }
 }
 
-void deleteJalan(graph G, string gedungAsal, string gedungTujuan) {
+void deleteJalan(graph &G, string gedungAsal, string gedungTujuan) {
 /* I.S. Terdefinisi sebuah graph G yang berisi data jalan antar gedung, gedungAsal dan gedungTujuan adalah nama gedung yang jalannya ingin dihapus.
 F.S. Jalan yang menghubungkan gedungAsal dan gedungTujuan dihapus dari graph G,  Jika jalan tidak ditemukan menampilkan pesan bahwa jalan tidak ada akan ditampilkan */
     adrJalan prev;
@@ -154,4 +154,49 @@ void showAllJalan(graph G){
             P = nextJ(P);
         }
     }
+}
+
+adrJalan checkConnectedGedung(graph G, adrGedung V){
+    if (firstJ(G)!=NULL){
+        adrJalan P = firstJ(G);
+        while (P != NULL){
+            if (asalG(P)==V || destG(P)==V){
+                return P;
+            }
+            P = nextJ(P);
+        }
+    }
+    return NULL;
+}
+
+void deleteGedung(graph &G,string nama){
+    if (firstG(G)!=NULL){
+        adrGedung V = searchGedung(G,nama);
+        if (V == NULL){
+            cout << "Gedung tidak ditemukan"<<endl;
+        } else {
+            adrJalan E = checkConnectedGedung(G,V);
+            while (E != NULL){
+                deleteJalan(G,nama(asalG(E)),nama(destG(E)));
+                E = checkConnectedGedung(G,V);
+            }
+            adrGedung P = firstG(G);
+            adrGedung prev = NULL;
+            while (P != NULL){
+                if (nama(P)==nama){
+                    break;
+                }
+                prev = P;
+                P = nextG(P);
+            }
+            if (P == firstG(G)){
+                firstG(G) = nextG(V);
+            } else if (nextG(P)==NULL){
+                nextG(prev) = NULL;
+            } else {
+                nextG(prev) = nextG(P);
+            }
+        }
+    }
+
 }
