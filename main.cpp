@@ -19,32 +19,35 @@ int main()
     P = createGedung("OPLIB", "Perpustakaan");
     addGedung(G, P);
 
+    P = createGedung("Student_Center", "Student_Center");
+    addGedung(G, P);
 
-    J = createJalan(G,"OPLIB","TULT",5);
-    addJalan(G,J);
+    //connecting
+    connectingGedung(G,"TULT","KU3",5);
+    connectingGedung(G,"OPLIB","KU3",7);
 
-    J = createJalan(G,"KU1","TULT",1);
-    addJalan(G,J);
+    connectingGedung(G,"KU1","KU3",3);
+    connectingGedung(G,"TULT","OPLIB",10);
 
-    J = createJalan(G,"KU1","KU3",1);
-    addJalan(G,J);
-
-    J = createJalan(G,"OPLIB","KU3",1);
-    addJalan(G,J);
-
-    J = createJalan(G,"TULT","OPLIB",1);
-    addJalan(G,J);
+    connectingGedung(G,"TULT","Student_Center",10);
+    connectingGedung(G,"KU3","Student_Center",6);
+    connectingGedung(G,"KU1","Student_Center",6);
 
     cout << "Sebelum proses pengahapusan: "<<endl;
+    cout << "Jumlah gedung: "<<countGedung(G)<<endl;
     showAllGedung(G);
     showAllJalan(G);
 
-    cout << "\nSetelah Penghapusan KU1: "<<endl;
-    deleteGedung(G,"TULT");
-    cout << "List gedung: "<<endl;
-    showAllGedung(G);
-    cout << "List jalan: "<<endl;
-    showAllJalan(G);
+    cout<<endl;
+    cout << "Cari rute untuk ke semua gedung dari gedung KU3"<<endl;
+    ruteSemuaGedung(G,"KU3");
+
+    //cout << "\nSetelah Penghapusan KU1: "<<endl;
+    //deleteGedung(G,"TULT");
+    //cout << "List gedung: "<<endl;
+    //showAllGedung(G);
+    //cout << "List jalan: "<<endl;
+    //showAllJalan(G);
 
     return 0;
 

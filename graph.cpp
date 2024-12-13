@@ -6,6 +6,7 @@ adrGedung createGedung(string nama, string deskripsi) { //membuat data gedung
     nama(P) = nama;
     deskripsi(P) = deskripsi;
     safety(P) = true;
+    flag(P) = true;
     nextG(P) = NULL;
     return P;
 }
@@ -35,14 +36,14 @@ adrJalan createJalan(graph G, string gedungAsal, string gedungTujuan,int jarak){
     /* Mengembalikan alamat (pointer) dari sebuah jalan baru yang menghubungkan ke gedung V dengan jarak tertentu */
     adrGedung A = searchGedung(G,gedungAsal);
     adrGedung T = searchGedung(G,gedungTujuan);
-    adrJalan P;
+    adrJalan P=NULL;
 
     if (A == NULL && T == NULL){
-        cout << "Gedung "<< nama(A)<<" dan "<<nama(T)<<" tidak ditemukan"<<endl;
+        cout << "Gedung "<< gedungAsal<<" dan "<<gedungTujuan<<" tidak ditemukan"<<endl;
     } else if (A == NULL){
-        cout << "Gedung "<< nama(A)<<" tidak ditemukan"<<endl;
+        cout << "Gedung "<< gedungAsal<<" tidak ditemukan"<<endl;
     } else if (T == NULL){
-        cout << "Gedung "<< nama(T)<<" tidak ditemukan"<<endl;
+        cout << "Gedung "<< gedungTujuan<<" tidak ditemukan"<<endl;
     } else {
         P = new jalan;
         asalG(P) = A;
@@ -199,4 +200,57 @@ void deleteGedung(graph &G,string nama){
         }
     }
 
+}
+
+void connectingGedung(graph &G,string gedungAsal, string gedungTujuan, int jarak){
+    adrGedung A = searchGedung(G,gedungAsal);
+    adrGedung T = searchGedung(G,gedungTujuan);
+
+    adrJalan J = createJalan(G,gedungAsal,gedungTujuan,jarak);
+    if (J != NULL){
+        addJalan(G,J);
+        J = createJalan(G,gedungTujuan,gedungAsal,jarak);
+        addJalan(G,J);
+    }
+}
+
+int countGedung(graph G){
+    int n = 0;
+    if (firstG(G)!=NULL){
+        adrGedung P = firstG(G);
+        while (P != NULL && safety(P)==true){
+            n++;
+            P = nextG(P);
+        }
+    }
+    return n;
+}
+
+void ruteSemuaGedung(graph G, string nama){
+    adrGedung P = searchGedung(G,nama);
+    int n = countGedung(G);
+    int total = 0;
+    if (P == NULL){
+        cout << "Gedung tidak ditemukan"<<endl;
+    } else {
+        flag(P) = false;
+        cout << nama(P)<<" -> ";
+        for (int i=0; i<n-1; i++){
+            adrJalan J = firstJ(G);
+            adrJalan min;
+            int minc = 9000;
+            while(J != NULL){
+                if(asalG(J)==P && jarak(J)<minc && flag(destG(J)) ==true){
+                    minc = jarak(J);
+                    min = J;
+                }
+                J = nextJ(J);
+            }
+            flag(destG(min)) = false;
+            total += jarak(min);
+            cout << nama(destG(min))<<" -> ";
+            P = destG(min);
+        }
+        cout << total <<" km";
+    }
 }

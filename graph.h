@@ -4,6 +4,7 @@
 #define nama(V) V->nama
 #define deskripsi(V) V->deskripsi
 #define safety(V) V->safety
+#define flag(V) V->flag
 #define nextG(V) V->nextGedung
 #define firstJ(V) V->firstJalan
 #define asalG(E) E->asalGedung
@@ -21,6 +22,7 @@ struct gedung {
     string nama;
     string deskripsi;
     bool safety;
+    bool flag;
     adrGedung nextGedung;
 };
 
@@ -50,5 +52,8 @@ void showGedung(graph G, string nama); // Menampilkan informasi detail tentang s
 void showAllJalan(graph G);
 adrJalan checkConnectedGedung(graph G, adrGedung V);
 void deleteGedung(graph &G,string nama);
+void connectingGedung(graph &G,string gedungAsal, string gedungTujuan, int jarak);
+void ruteSemuaGedung(graph G, string nama);
+int countGedung(graph G);
 
 #endif // GRAPH_H_INCLUDED
