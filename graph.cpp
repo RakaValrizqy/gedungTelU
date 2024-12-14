@@ -49,6 +49,7 @@ adrJalan createJalan(graph G, string gedungAsal, string gedungTujuan,int jarak){
         asalG(P) = A;
         destG(P) = T;
         jarak(P) = jarak;
+        flagJ(P) = true;
         nextJ(P) = NULL;
     }
     return P;
@@ -100,7 +101,7 @@ F.S. Jalan yang menghubungkan gedungAsal dan gedungTujuan dihapus dari graph G, 
                 } else {
                     nextJ(prev) = nextJ(P);
                 }
-                cout << "Jalan dari " << gedungAsal << " ke " << gedungTujuan << " telah dihapus" << endl;
+                //cout << "Jalan dari " << gedungAsal << " ke " << gedungTujuan << " telah dihapus" << endl;
                 break;
             }
             prev = P;
@@ -113,16 +114,87 @@ F.S. Jalan yang menghubungkan gedungAsal dan gedungTujuan dihapus dari graph G, 
     }
 }
 
-void ruteTerpendek(graph G, adrGedung V1, adrGedung V2){ //mencari dan menampilkan rute terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
+void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan){ //mencari dan menampilkan rute terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
      /* I.S. Terdefinisi sebuah graph, G, dan dua gedung (V1 dan V2) yang merupakan titik awal dan tujuan untuk pencarian rute terpendek
     F.S. Menampilkan rute terpendek dari gedung V1 ke gedung V2, jika ada, atau memberi informasi bahwa tidak ada rute yang ditemukan */
+     // Map untuk menyimpan jarak minimum ke setiap gedung
+    map<adrGedung, int> dist;
+    map<adrGedung, adrGedung> prev; // Untuk menyimpan jalur
+    priority_queue<pair<int, adrGedung>, vector<pair<int, adrGedung>>, greater<pair<int, adrGedung>>> pq;
+
+
+    adrGedung V1 = searchGedung(G,gedungAsal);
+    adrGedung V2 = searchGedung(G,gedungTujuan);
+    if(V1 == NULL && V2 == NULL){
+        cout << "Gedung "<< gedungAsal<<" dan "<<gedungTujuan<<" tidak ditemukan"<<endl;
+    } else if (V1 == NULL){
+        cout << "Gedung "<< gedungAsal<<" tidak ditemukan"<<endl;
+    } else if (V2 == NULL){
+        cout << "Gedung "<< gedungTujuan<<" tidak ditemukan"<<endl;
+    } else {
+        // Inisialisasi
+        adrGedung current = firstG(G);
+        while (current != nullptr) {
+            dist[current] = INT_MAX; // Semua jarak awalnya infinity
+            prev[current] = nullptr; // Belum ada jalur
+            current = nextG(current);
+        }
+
+        dist[V1] = 0; // Jarak ke node asal adalah 0
+        pq.push({0, V1}); // Tambahkan node awal ke priority queue
+
+        // Dijkstra
+        while (!pq.empty()) {
+            auto [currentDist, currentGedung] = pq.top();
+            pq.pop();
+
+            // Cek semua jalan dari gedung saat ini
+            adrJalan jalan = checkJalanFromGedung(G, currentGedung);
+            while (jalan != nullptr) {
+                adrGedung tetangga = destG(jalan);
+                int jarakBaru = currentDist + jarak(jalan);
+
+                // Perbarui jika ditemukan jarak lebih pendek
+                if (jarakBaru < dist[tetangga]) {
+                    dist[tetangga] = jarakBaru;
+                    prev[tetangga] = currentGedung;
+                    pq.push({jarakBaru, tetangga});
+                }
+                flagJ(jalan) = false;
+                jalan = checkJalanFromGedung(G, currentGedung);
+            }
+        }
+
+        // Cetak jalur terpendek
+        if (dist[V2] == INT_MAX) {
+            cout << "Tidak ada rute dari " << nama(V1) << " ke " << nama(V2) << endl;
+        } else {
+            cout << "Rute terpendek dari " << nama(V1) << " ke " << nama(V2) << " dengan jarak " << dist[V2] << ":\n";
+            vector<string> path;
+            for (adrGedung at = V2; at != nullptr; at = prev[at]) {
+                path.push_back(nama(at));
+            }
+            for (auto it = path.rbegin(); it != path.rend(); ++it) {
+                cout << *it;
+                if (it + 1 != path.rend()) cout << " -> ";
+            }
+            cout << endl;
+        }
+    }
 
 }
 
-void ruteAlternatif(graph G, adrGedung V1, adrGedung V2){ //mencari dan menampilkan rute alternatif terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
+void ruteAlternatif(graph G, string gedungAsal, string gedungTujuan, string gedungEmergency){ //mencari dan menampilkan rute alternatif terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
     /*I.S. Terdefinisi sebuah graph, G, dan dua gedung (V1 dan V2) yang merupakan titik awal dan tujuan untuk pencarian rute alternatif terpendek
     F.S. Menampilkan rute alternatif terpendek dari gedung V1 ke gedung V2, jika ada, atau memberi informasi bahwa tidak ada rute alternatif yang ditemukan */
-
+    adrGedung emerg = searchGedung(G,gedungEmergency);
+    if(emerg == NULL){
+        cout << "Gedung "<<gedungEmergency<<" tidak ditemukan."<<endl;
+    } else {
+        cout << "Rute terpendek dari "<<gedungAsal<<" ke gedung "<<gedungTujuan<<", menghindari gedung "<<gedungEmergency<<endl;
+        deleteGedung(G,gedungEmergency);
+        ruteTerpendek(G,gedungAsal,gedungTujuan);
+    }
 }
 
 void showAllGedung(graph G) { // Menampilkan semua gedung yang ada dalam graph G
@@ -251,6 +323,19 @@ void ruteSemuaGedung(graph G, string nama){
             cout << nama(destG(min))<<" -> ";
             P = destG(min);
         }
-        cout << total <<" km";
+        cout << total <<" km"<<endl;
     }
+}
+
+adrJalan checkJalanFromGedung(graph G, adrGedung V){
+    if (firstJ(G)!=NULL){
+        adrJalan P = firstJ(G);
+        while (P != NULL){
+            if (asalG(P)==V && flagJ(P)!= false){
+                return P;
+            }
+            P = nextJ(P);
+        }
+    }
+    return NULL;
 }

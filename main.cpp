@@ -48,6 +48,8 @@ int main()
     //showAllGedung(G);
     //cout << "List jalan: "<<endl;
     //showAllJalan(G);
+    ruteTerpendek(G,"TULT","KU1");
+    ruteAlternatif(G,"TULT","KU1","KU3");
 
     return 0;
 

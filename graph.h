@@ -10,9 +10,14 @@
 #define asalG(E) E->asalGedung
 #define destG(E) E->destGedung
 #define jarak(E) E->jarak
+#define flagJ(E) E->flag
 #define nextJ(E) E->nextJalan
 #define firstG(G) G.firstGedung
 #define firstJ(G) G.firstJalan
+#include <queue>
+#include <map>
+#include <vector>
+#include <climits>
 
 using namespace std;
 typedef struct gedung *adrGedung;
@@ -30,6 +35,7 @@ struct jalan{
     adrGedung asalGedung;
     adrGedung destGedung;
     int jarak;
+    bool flag;
     adrJalan nextJalan;
 };
 
@@ -45,8 +51,8 @@ adrJalan createJalan(graph G, string gedungAsal, string gedungTujuan,int jarak);
 adrGedung searchGedung(graph G, string nama); //mencari alamat gedung dengan nama gedung = nama
 void addJalan(graph &G, adrJalan E);//menambahkan data jalan pada gedung
 void deleteJalan(graph &G, string gedungAsal, string gedungTujuan); //menghapus data jalan
-void ruteTerpendek(graph G, adrGedung V1, adrGedung V2); //mencari dan menampilkan rute terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
-void ruteAlternatif(graph G, adrGedung V1, adrGedung V2); //mencari dan menampilkan rute alternatif terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
+void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan); //mencari dan menampilkan rute terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
+void ruteAlternatif(graph G, string gedungAsal, string gedungTujuan, string gedungEmergency); //mencari dan menampilkan rute alternatif terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
 void showAllGedung(graph G); // Menampilkan semua gedung yang ada dalam graph G
 void showGedung(graph G, string nama); // Menampilkan informasi detail tentang satu gedung tertentu yang dicari
 void showAllJalan(graph G);
@@ -55,5 +61,6 @@ void deleteGedung(graph &G,string nama);
 void connectingGedung(graph &G,string gedungAsal, string gedungTujuan, int jarak);
 void ruteSemuaGedung(graph G, string nama);
 int countGedung(graph G);
+adrJalan checkJalanFromGedung(graph G, adrGedung V);
 
 #endif // GRAPH_H_INCLUDED
