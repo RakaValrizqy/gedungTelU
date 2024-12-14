@@ -62,5 +62,7 @@ void connectingGedung(graph &G,string gedungAsal, string gedungTujuan, int jarak
 void ruteSemuaGedung(graph G, string nama);
 int countGedung(graph G);
 adrJalan checkJalanFromGedung(graph G, adrGedung V);
+void deleteGedungTemporary(graph &G, string nama);
+void restoreGedung(graph &G,string nama);
 
 #endif // GRAPH_H_INCLUDED

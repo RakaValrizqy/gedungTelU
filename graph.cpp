@@ -155,6 +155,7 @@ void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan){ //mencari d
                 int jarakBaru = currentDist + jarak(jalan);
 
                 // Perbarui jika ditemukan jarak lebih pendek
+                //cout << jarakBaru<<" "<<dist[tetangga]<<endl;
                 if (jarakBaru < dist[tetangga]) {
                     dist[tetangga] = jarakBaru;
                     prev[tetangga] = currentGedung;
@@ -178,7 +179,14 @@ void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan){ //mencari d
                 cout << *it;
                 if (it + 1 != path.rend()) cout << " -> ";
             }
+
             cout << endl;
+        }
+        //mengembalikan status jalan
+        adrJalan jalan = firstJ(G);
+        while (jalan != NULL){
+            flagJ(jalan) = true;
+            jalan = nextJ(jalan);
         }
     }
 
@@ -192,8 +200,9 @@ void ruteAlternatif(graph G, string gedungAsal, string gedungTujuan, string gedu
         cout << "Gedung "<<gedungEmergency<<" tidak ditemukan."<<endl;
     } else {
         cout << "Rute terpendek dari "<<gedungAsal<<" ke gedung "<<gedungTujuan<<", menghindari gedung "<<gedungEmergency<<endl;
-        deleteGedung(G,gedungEmergency);
+        deleteGedungTemporary(G,gedungEmergency);
         ruteTerpendek(G,gedungAsal,gedungTujuan);
+        restoreGedung(G,gedungEmergency);
     }
 }
 
@@ -331,11 +340,42 @@ adrJalan checkJalanFromGedung(graph G, adrGedung V){
     if (firstJ(G)!=NULL){
         adrJalan P = firstJ(G);
         while (P != NULL){
-            if (asalG(P)==V && flagJ(P)!= false){
+            if (asalG(P)==V && flagJ(P)!= false && safety(destG(P))==true){
                 return P;
             }
             P = nextJ(P);
         }
     }
     return NULL;
+}
+
+void deleteGedungTemporary(graph &G, string nama){
+    adrGedung P = searchGedung(G,nama);
+    if (P == NULL){
+        cout << "Gedung tidak ditemukan"<<endl;
+    } else{
+        adrJalan J = firstJ(G);
+        while (J != NULL){
+            if (asalG(J)==P || destG(J)==P){
+                flagJ(J) = false;
+            }
+            J =nextJ(J);
+        }
+        safety(P) = false;
+    }
+}
+void restoreGedung(graph &G,string nama){
+    adrGedung P = searchGedung(G,nama);
+    if (P == NULL){
+        cout << "Gedung tidak ditemukan"<<endl;
+    } else{
+        adrJalan J = firstJ(G);
+        while (J != NULL){
+            if (asalG(J)==P || destG(J)==P){
+                flagJ(J) = true;
+            }
+            J =nextJ(J);
+        }
+        safety(P) = true;
+    }
 }

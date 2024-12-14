@@ -39,8 +39,9 @@ int main()
     showAllJalan(G);
 
     cout<<endl;
-    cout << "Cari rute untuk ke semua gedung dari gedung KU3"<<endl;
-    ruteSemuaGedung(G,"KU3");
+    //cout << "Cari rute untuk ke semua gedung dari gedung KU3"<<endl;
+    //ruteSemuaGedung(G,"KU3");
+    //deleteGedung(G,"KU3");
 
     //cout << "\nSetelah Penghapusan KU1: "<<endl;
     //deleteGedung(G,"TULT");
@@ -49,7 +50,8 @@ int main()
     //cout << "List jalan: "<<endl;
     //showAllJalan(G);
     ruteTerpendek(G,"TULT","KU1");
-    ruteAlternatif(G,"TULT","KU1","KU3");
+    ruteAlternatif(G,"KU1","TULT","KU3");
+    showAllGedung(G);
 
     return 0;
 
