@@ -119,9 +119,8 @@ void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan){ //mencari d
     F.S. Menampilkan rute terpendek dari gedung V1 ke gedung V2, jika ada, atau memberi informasi bahwa tidak ada rute yang ditemukan */
      // Map untuk menyimpan jarak minimum ke setiap gedung
     map<adrGedung, int> dist;
-    map<adrGedung, adrGedung> prev; // Untuk menyimpan jalur
+    map<adrGedung, adrGedung> prev;
     priority_queue<pair<int, adrGedung>, vector<pair<int, adrGedung>>, greater<pair<int, adrGedung>>> pq;
-
 
     adrGedung V1 = searchGedung(G,gedungAsal);
     adrGedung V2 = searchGedung(G,gedungTujuan);
@@ -145,7 +144,9 @@ void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan){ //mencari d
 
         // Dijkstra
         while (!pq.empty()) {
-            auto [currentDist, currentGedung] = pq.top();
+            pair<int,adrGedung> topEl = pq.top();
+            int currentDist = topEl.first;
+            adrGedung currentGedung = topEl.second;
             pq.pop();
 
             // Cek semua jalan dari gedung saat ini
@@ -164,6 +165,7 @@ void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan){ //mencari d
                 flagJ(jalan) = false;
                 jalan = checkJalanFromGedung(G, currentGedung);
             }
+
         }
 
         // Cetak jalur terpendek
@@ -188,8 +190,9 @@ void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan){ //mencari d
             flagJ(jalan) = true;
             jalan = nextJ(jalan);
         }
-    }
 
+
+    }
 }
 
 void ruteAlternatif(graph G, string gedungAsal, string gedungTujuan, string gedungEmergency){ //mencari dan menampilkan rute alternatif terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2

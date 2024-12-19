@@ -50,7 +50,7 @@ int main()
     //cout << "List jalan: "<<endl;
     //showAllJalan(G);
     ruteTerpendek(G,"TULT","KU1");
-    ruteAlternatif(G,"KU1","TULT","KU3");
+    //ruteAlternatif(G,"KU1","TULT","KU3");
     showAllGedung(G);
 
     return 0;
