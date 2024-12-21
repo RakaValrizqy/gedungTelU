@@ -7,38 +7,78 @@ int main()
     adrJalan J;
 
     initGraph(G);
+
+    // Menambahkan gedung
     P = createGedung("TULT", "Telkom University Landmark Tower");
     addGedung(G, P);
 
-    P = createGedung("KU1", "Gedung Perkuliahan Umum 1");
+    P = createGedung("SPORT CENTER", "Pusat kegiatan olahraga dan kebugaran");
     addGedung(G, P);
 
-    P = createGedung("KU3", "Gedung Tokong Nanas");
+    P = createGedung("TUCH", "Aula serbaguna untuk acara-acara besar");
     addGedung(G, P);
 
-    P = createGedung("OPLIB", "Perpustakaan");
+    P = createGedung("OPLIB", "Open Library atau perpustakaan");
     addGedung(G, P);
 
-    P = createGedung("Student_Center", "Student_Center");
+    P = createGedung("GKU", "Gedung Kuliah Umum");
     addGedung(G, P);
 
-    //connecting
-    connectingGedung(G,"TULT","KU3",5);
-    connectingGedung(G,"OPLIB","KU3",7);
+    P = createGedung("REKTORAT", "Kantor rektor");
+    addGedung(G, P);
 
-    connectingGedung(G,"KU1","KU3",3);
-    connectingGedung(G,"TULT","OPLIB",10);
+    P = createGedung("HOTEL LINGIAN", "Hotel untuk tamu universitas");
+    addGedung(G, P);
 
-    connectingGedung(G,"TULT","Student_Center",10);
-    connectingGedung(G,"KU3","Student_Center",6);
-    connectingGedung(G,"KU1","Student_Center",6);
+    P = createGedung("STUDENT CENTER", "Tempat kegiatan mahasiswa");
+    addGedung(G, P);
+
+    P = createGedung("KU1", "Gedung Kuliah Umum 1");
+    addGedung(G, P);
+
+    P = createGedung("MSU", "Masjid Syamsul ‘Ulum");
+    addGedung(G, P);
+
+
+    // connecting
+    // koneksi dari TULT
+    connectingGedung(G, "TULT", "SPORT CENTER", 8);
+    connectingGedung(G, "TULT", "TUCH", 10);
+    connectingGedung(G, "TULT", "OPLIB", 12);
+
+    // koneksi dari SPORT_CENTER
+    connectingGedung(G, "SPORT CENTER", "TUCH", 9);
+    connectingGedung(G, "SPORT CENTER", "GKU", 6);
+
+    // koneksi dari TUCH
+    connectingGedung(G, "TUCH", "OPLIB", 6);
+    connectingGedung(G, "TUCH", "GKU", 10);
+
+    // koneksi dari OPLIB
+    connectingGedung(G, "OPLIB", "REKTORAT", 11);
+
+    // koneksi dari GKU
+    connectingGedung(G, "GKU", "REKTORAT", 5);
+    connectingGedung(G, "GKU", "HOTEL LINGIAN", 5);
+
+    // koneksi dari HOTEL_LINGIAN
+    connectingGedung(G, "HOTEL LINGIAN", "REKTORAT", 7);
+    connectingGedung(G, "HOTEL LINGIAN", "STUDENT CENTER", 9);
+
+    // koneksi dari REKTORAT
+    connectingGedung(G, "REKTORAT", "KU1", 5);
+
+    // koneksi dari KU1
+    connectingGedung(G, "KU1", "MSU", 7);
+
+    // koneksi dari MSU
+    connectingGedung(G, "MSU", "STUDENT CENTER", 15);
 
     cout << "Sebelum proses pengahapusan: "<<endl;
     cout << "Jumlah gedung: "<<countGedung(G)<<endl;
     showAllGedung(G);
     showAllJalan(G);
 
-    cout<<endl;
     //cout << "Cari rute untuk ke semua gedung dari gedung KU3"<<endl;
     //ruteSemuaGedung(G,"KU3");
     //deleteGedung(G,"KU3");

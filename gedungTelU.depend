@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1734592257 source:d:\study\semester 3\struktur data\tubes\gedungtelu\graph.cpp
+1734592838 source:d:\study\semester 3\struktur data\tubes\gedungtelu\graph.cpp
 	"graph.h"
 
 1734524857 d:\study\semester 3\struktur data\tubes\gedungtelu\graph.h
@@ -9,7 +9,7 @@
 	<vector>
 	<climits>
 
-1734592268 source:d:\study\semester 3\struktur data\tubes\gedungtelu\main.cpp
+1734781809 source:d:\study\semester 3\struktur data\tubes\gedungtelu\main.cpp
 	"graph.h"
 
 1734187540 source:d:\telyu\sems3\strukdat\tubes\gedungtelu\main.cpp
