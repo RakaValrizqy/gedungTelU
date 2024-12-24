@@ -14,6 +14,8 @@
 #define nextJ(E) E->nextJalan
 #define firstG(G) G.firstGedung
 #define firstJ(G) G.firstJalan
+#define head(Q) Q.head
+#define tail(Q) Q.tail
 #include <queue>
 #include <map>
 #include <vector>
@@ -22,6 +24,7 @@
 using namespace std;
 typedef struct gedung *adrGedung;
 typedef struct jalan *adrJalan;
+typedef struct elmQ *adrQ;
 
 struct gedung {
     string nama;
@@ -39,9 +42,20 @@ struct jalan{
     adrJalan nextJalan;
 };
 
+struct elmQ {
+    int jarak;
+    adrGedung ged;
+    adrQ next;
+};
+
 struct graph {
     adrGedung firstGedung;
     adrJalan firstJalan;
+};
+
+struct priorq {
+    adrQ head;
+    adrQ tail;
 };
 
 adrGedung createGedung(string nama, string deskripsi); //membuat data gedung
@@ -64,5 +78,10 @@ int countGedung(graph G);
 adrJalan checkJalanFromGedung(graph G, adrGedung V);
 void deleteGedungTemporary(graph &G, string nama);
 void restoreGedung(graph &G,string nama);
-
+void createPriorQ(priorq &Q);
+adrQ createElmQ(int jarak, adrGedung ged);
+void pushPriorQ(priorq &Q, adrQ P);
+adrQ popPriorQ(priorq &Q);
+bool priorQIsEmpty(priorq Q);
+void ruteTerpendekTest(graph G, string gedungAsal, string gedungTujuan);
 #endif // GRAPH_H_INCLUDED

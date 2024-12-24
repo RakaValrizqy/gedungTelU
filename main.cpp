@@ -90,8 +90,9 @@ int main()
     //cout << "List jalan: "<<endl;
     //showAllJalan(G);
     ruteTerpendek(G,"TULT","KU1");
+    ruteTerpendekTest(G,"TULT","KU1");
     //ruteAlternatif(G,"KU1","TULT","KU3");
-    showAllGedung(G);
+    //showAllGedung(G);
 
     return 0;
 

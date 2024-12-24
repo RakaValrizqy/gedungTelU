@@ -152,6 +152,7 @@ void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan){ //mencari d
             // Cek semua jalan dari gedung saat ini
             adrJalan jalan = checkJalanFromGedung(G, currentGedung);
             while (jalan != nullptr) {
+                    cout << jalan->asalGedung->nama<<" "<<jalan->destGedung->nama<<endl;
                 adrGedung tetangga = destG(jalan);
                 int jarakBaru = currentDist + jarak(jalan);
 
@@ -380,5 +381,150 @@ void restoreGedung(graph &G,string nama){
             J =nextJ(J);
         }
         safety(P) = true;
+    }
+}
+
+void createPriorQ(priorq &Q){
+    head(Q) = NULL;
+    tail(Q) = NULL;
+}
+
+adrQ createElmQ(int jarak, adrGedung ged){
+    adrQ P = new elmQ;
+    P->jarak = jarak;
+    P->ged = ged;
+    P->next = NULL;
+    return P;
+}
+
+void pushPriorQ(priorq &Q, adrQ P){
+    if (head(Q) == NULL || P->jarak < head(Q)->jarak) {
+        P->next = head(Q);
+        head(Q) = P;
+        if (tail(Q) == NULL) {
+            tail(Q) = P;  // Jika queue kosong, tail juga harus diperbarui
+        } else {
+            tail(Q)->next = P; // Tail pointer diubah jika queue tidak kosong
+            tail(Q) = P;        // Pastikan tail terbaru adalah P
+        }
+    } else {
+        adrQ R = head(Q);
+        adrQ T = NULL;
+        while (R != NULL && P->jarak >= R->jarak) {
+            T = R;
+            R = R->next;
+        }
+        P->next = R;
+        if (T != NULL) {
+            T->next = P;
+        }
+    }
+}
+
+adrQ popPriorQ(priorq &Q){
+    if (head(Q)==NULL&&tail(Q)==NULL){
+        return NULL;
+    } else if(head(Q)==tail(Q)){
+        adrQ P = head(Q);
+        head(Q) = NULL;
+        tail(Q) = NULL;
+        return P;
+    } else {
+        adrQ P = head(Q);
+        head(Q) = head(Q)->next;
+        P->next = NULL;
+        return P;
+    }
+}
+
+bool priorQIsEmpty(priorq Q){
+    return head(Q)==NULL&&tail(Q)==NULL;
+}
+
+void ruteTerpendekTest(graph G, string gedungAsal, string gedungTujuan){
+map<adrGedung, int> dist;
+    map<adrGedung, adrGedung> prev;
+    //priority_queue<pair<int, adrGedung>, vector<pair<int, adrGedung>>, greater<pair<int, adrGedung>>> pq;
+    priorq pq;
+    createPriorQ(pq);
+
+    adrGedung V1 = searchGedung(G,gedungAsal);
+    adrGedung V2 = searchGedung(G,gedungTujuan);
+    if(V1 == NULL && V2 == NULL){
+        cout << "Gedung "<< gedungAsal<<" dan "<<gedungTujuan<<" tidak ditemukan"<<endl;
+    } else if (V1 == NULL){
+        cout << "Gedung "<< gedungAsal<<" tidak ditemukan"<<endl;
+    } else if (V2 == NULL){
+        cout << "Gedung "<< gedungTujuan<<" tidak ditemukan"<<endl;
+    } else {
+        // Inisialisasi
+        adrGedung current = firstG(G);
+        while (current != NULL) {
+            dist[current] = INT_MAX; // Semua jarak awalnya infinity
+            prev[current] = NULL; // Belum ada jalur
+            current = nextG(current);
+        }
+
+        dist[V1] = 0; // Jarak ke node asal adalah 0
+        //pq.push({0, V1}); // Tambahkan node awal ke priority queue
+        adrQ v1 = createElmQ(0,V1);
+        pushPriorQ(pq,v1);
+
+        cout << "test "<< priorQIsEmpty(pq)<<endl;
+        // Dijkstra
+        while (!priorQIsEmpty(pq)) {
+            adrQ currentQ = popPriorQ(pq);
+            //pair<int,adrGedung> topEl = pq.top();
+            //int currentDist = topEl.first;
+            //adrGedung currentGedung = topEl.second;
+            //pq.pop();
+
+            // Cek semua jalan dari gedung saat ini
+            adrJalan jalan = checkJalanFromGedung(G, currentQ->ged);
+            while (jalan != NULL) {
+                    cout << jalan->asalGedung->nama<<" "<<jalan->destGedung->nama<<endl;
+                adrGedung tetangga = destG(jalan);
+                int jarakBaru = currentQ->jarak + jarak(jalan);
+
+                // Perbarui jika ditemukan jarak lebih pendek
+                //cout << jarakBaru<<" "<<dist[tetangga]<<endl;
+                if (jarakBaru < dist[tetangga]) {
+                    dist[tetangga] = jarakBaru;
+                    prev[tetangga] = currentQ->ged;
+                    adrQ Z = createElmQ(jarakBaru,tetangga);
+                    pushPriorQ(pq,Z);
+                    //pq.push({jarakBaru, tetangga});
+                }
+                flagJ(jalan) = false;
+                jalan = checkJalanFromGedung(G, currentQ->ged);
+            }
+cout << "cek"<<endl;
+        }
+
+
+        // Cetak jalur terpendek
+        if (dist[V2] == INT_MAX) {
+            cout << "Tidak ada rute dari " << nama(V1) << " ke " << nama(V2) << endl;
+        } else {
+            cout << "Rute terpendek dari " << nama(V1) << " ke " << nama(V2) << " dengan jarak " << dist[V2] << ":\n";
+            vector<string> path;
+            for (adrGedung at = V2; at != nullptr; at = prev[at]) {
+                path.push_back(nama(at));
+            }
+            for (auto it = path.rbegin(); it != path.rend(); ++it) {
+                cout << *it;
+                if (it + 1 != path.rend()) cout << " -> ";
+            }
+
+            cout << endl;
+        }
+        //mengembalikan status jalan
+        adrJalan jalan = firstJ(G);
+        while (jalan != NULL){
+            flagJ(jalan) = true;
+            jalan = nextJ(jalan);
+        }
+
+
     }
 }
