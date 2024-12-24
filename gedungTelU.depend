@@ -12,16 +12,14 @@
 1735033096 source:d:\study\semester 3\struktur data\tubes\gedungtelu\main.cpp
 	"graph.h"
 
-1734963089 source:d:\telyu\sems3\strukdat\tubes\gedungtelu\main.cpp
+1735048996 source:d:\telyu\sems3\strukdat\tubes\gedungtelu\main.cpp
 	"graph.h"
 
-1734962683 d:\telyu\sems3\strukdat\tubes\gedungtelu\graph.h
+1735049068 d:\telyu\sems3\strukdat\tubes\gedungtelu\graph.h
 	<iostream>
-	<queue>
 	<map>
-	<vector>
 	<climits>
 
-1734962829 source:d:\telyu\sems3\strukdat\tubes\gedungtelu\graph.cpp
+1735049030 source:d:\telyu\sems3\strukdat\tubes\gedungtelu\graph.cpp
 	"graph.h"
 

@@ -16,15 +16,14 @@
 #define firstJ(G) G.firstJalan
 #define head(Q) Q.head
 #define tail(Q) Q.tail
-#include <queue>
 #include <map>
-#include <vector>
 #include <climits>
 
 using namespace std;
 typedef struct gedung *adrGedung;
 typedef struct jalan *adrJalan;
 typedef struct elmQ *adrQ;
+typedef struct elmRute *adrRute;
 
 struct gedung {
     string nama;
@@ -48,6 +47,11 @@ struct elmQ {
     adrQ next;
 };
 
+struct elmRute{
+    adrGedung ged;
+    adrRute next;
+};
+
 struct graph {
     adrGedung firstGedung;
     adrJalan firstJalan;
@@ -57,6 +61,11 @@ struct priorq {
     adrQ head;
     adrQ tail;
 };
+
+struct rute {
+    adrRute first;
+};
+
 
 adrGedung createGedung(string nama, string deskripsi); // membuat data gedung
 void initGraph(graph &G); // menginisiasikan graph
@@ -85,5 +94,9 @@ adrQ popPriorQ(priorq &Q); // menghapus elemen dengan prioritas tertinggi dari q
 bool priorQIsEmpty(priorq Q); // mengecek apakah priority queue kosong
 void ruteTerpendekTest(graph G, string gedungAsal, string gedungTujuan); // menentukan dan menampilkan rute terpendek antara dua gedung dalam sebuah graph
 void displayMenu(); // menampilkan menu pilihan untuk program utama
+adrRute createElmRute(adrGedung V);
+void createRute(rute &R);
+void insertFirstRute(rute &R, adrRute AR);
+void showRute(rute R);
 
 #endif // GRAPH_H_INCLUDED
