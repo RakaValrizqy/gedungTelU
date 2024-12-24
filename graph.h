@@ -58,30 +58,32 @@ struct priorq {
     adrQ tail;
 };
 
-adrGedung createGedung(string nama, string deskripsi); //membuat data gedung
-void initGraph(graph &G); //menginisiasikan graph
-void addGedung(graph &G, adrGedung V); //menambahkan data gedung ke dalam graph
-adrJalan createJalan(graph G, string gedungAsal, string gedungTujuan,int jarak); //membuat data jalan
+adrGedung createGedung(string nama, string deskripsi); // membuat data gedung
+void initGraph(graph &G); // menginisiasikan graph
+void addGedung(graph &G, adrGedung V); // menambahkan data gedung ke dalam graph
+adrJalan createJalan(graph G, string gedungAsal, string gedungTujuan,int jarak); // membuat data jalan
 adrGedung searchGedung(graph G, string nama); //mencari alamat gedung dengan nama gedung = nama
 void addJalan(graph &G, adrJalan E);//menambahkan data jalan pada gedung
-void deleteJalan(graph &G, string gedungAsal, string gedungTujuan); //menghapus data jalan
-void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan); //mencari dan menampilkan rute terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
-void ruteAlternatif(graph G, string gedungAsal, string gedungTujuan, string gedungEmergency); //mencari dan menampilkan rute alternatif terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
-void showAllGedung(graph G); // Menampilkan semua gedung yang ada dalam graph G
-void showGedung(graph G, string nama); // Menampilkan informasi detail tentang satu gedung tertentu yang dicari
-void showAllJalan(graph G);
-adrJalan checkConnectedGedung(graph G, adrGedung V);
-void deleteGedung(graph &G,string nama);
-void connectingGedung(graph &G,string gedungAsal, string gedungTujuan, int jarak);
-void ruteSemuaGedung(graph G, string nama);
-int countGedung(graph G);
-adrJalan checkJalanFromGedung(graph G, adrGedung V);
-void deleteGedungTemporary(graph &G, string nama);
-void restoreGedung(graph &G,string nama);
-void createPriorQ(priorq &Q);
-adrQ createElmQ(int jarak, adrGedung ged);
-void pushPriorQ(priorq &Q, adrQ P);
-adrQ popPriorQ(priorq &Q);
-bool priorQIsEmpty(priorq Q);
-void ruteTerpendekTest(graph G, string gedungAsal, string gedungTujuan);
+void deleteJalan(graph &G, string gedungAsal, string gedungTujuan); // menghapus data jalan
+void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan); // mencari dan menampilkan rute terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
+void ruteAlternatif(graph G, string gedungAsal, string gedungTujuan, string gedungEmergency); // mencari dan menampilkan rute alternatif terpendek dari gedung dengan alamat V1 ke gedung dengan alamat V2
+void showAllGedung(graph G); // menampilkan semua gedung yang ada dalam graph G
+void showGedung(graph G, string nama); // menampilkan informasi detail tentang satu gedung tertentu yang dicari
+void showAllJalan(graph G); // menampilkan semua jalan yang ada dalam graph G
+adrJalan checkConnectedGedung(graph G, adrGedung V); // memeriksa apakah gedung terhubung dengan jalan dalam graph G
+void deleteGedung(graph &G,string nama); // menghapus sebuah gedung dari graph G
+void connectingGedung(graph &G,string gedungAsal, string gedungTujuan, int jarak); // menambahkan koneksi antara dua gedung dengan jarak tertentu
+void ruteSemuaGedung(graph G, string nama); // menampilkan rute ke semua gedung yang ada dari gedung tertentu
+int countGedung(graph G); // menghitung jumlah gedung dalam graph G
+adrJalan checkJalanFromGedung(graph G, adrGedung V); // memeriksa semua jalan yang berasal dari sebuah gedung
+void deleteGedungTemporary(graph &G, string nama); // menghapus sementara sebuah gedung dan jalan yang terhubung
+void restoreGedung(graph &G,string nama); // memulihkan gedung dan jalan yang sebelumnya dihapus sementara
+void createPriorQ(priorq &Q); // membuat priority queue baru
+adrQ createElmQ(int jarak, adrGedung ged); // membuat elemen baru dalam priority queue
+void pushPriorQ(priorq &Q, adrQ P); // menambahkan elemen baru ke priority queue
+adrQ popPriorQ(priorq &Q); // menghapus elemen dengan prioritas tertinggi dari queue
+bool priorQIsEmpty(priorq Q); // mengecek apakah priority queue kosong
+void ruteTerpendekTest(graph G, string gedungAsal, string gedungTujuan); // menentukan dan menampilkan rute terpendek antara dua gedung dalam sebuah graph
+void displayMenu(); // menampilkan menu pilihan untuk program utama
+
 #endif // GRAPH_H_INCLUDED
