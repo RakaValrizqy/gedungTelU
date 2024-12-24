@@ -174,6 +174,7 @@ void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan){ // mencari 
                     prev[tetangga] = currentQ->ged;
                     adrQ Z = createElmQ(jarakBaru,tetangga);
                     pushPriorQ(pq,Z);
+                    //cout << nama(tetangga)<<endl;
                 }
                 flagJ(jalan) = false;
                 jalan = checkJalanFromGedung(G, currentQ->ged);
@@ -353,37 +354,28 @@ int countGedung(graph G){ // menghitung jumlah gedung dalam graph G
 }
 
 
-void ruteSemuaGedung(graph G, string nama){ // menampilkan rute ke semua gedung yang ada dari gedung tertentu
-    /* I.S. Terdefinisi sebuah graph, G, dan nama gedung awal
-    F.S. Menampilkan rute ke semua gedung dari gedung awal beserta total jaraknya */
-    // I.S, F.S yang ini ??????
-
-    adrGedung P = searchGedung(G,nama);
-    int n = countGedung(G);
-    int total = 0;
-    if (P == NULL){
-        cout << "Gedung tidak ditemukan"<<endl;
-    } else {
-        flag(P) = false;
-        cout << nama(P)<<" -> ";
-        for (int i=0; i<n-1; i++){
-            adrJalan J = firstJ(G);
-            adrJalan min;
-            int minc = INT_MAX;
-            while(J != NULL){
-                if(asalG(J)==P && jarak(J)<minc && flag(destG(J)) ==true){
-                    minc = jarak(J);
-                    min = J;
-                }
-                J = nextJ(J);
+adrGedung searchPersimpanganUtama(graph G){
+    adrGedung P = firstG(G);
+    adrGedung maxJalan = P;
+    int nJalanMax = 0;
+    int nJalan;
+    adrJalan J;
+    while (P!=NULL){
+        J = firstJ(G);
+        nJalan = 0;
+        while(J!=NULL){
+            if (asalG(J)==P){
+                nJalan++;
             }
-            flag(destG(min)) = false;
-            total += jarak(min);
-            cout << nama(destG(min))<<" -> ";
-            P = destG(min);
+            J=nextJ(J);
         }
-        cout << total <<" km"<<endl;
+        if (nJalan > nJalanMax){
+            maxJalan = P;
+            nJalanMax = nJalan;
+        }
+        P = nextG(P);
     }
+    return maxJalan;
 }
 
 
@@ -471,21 +463,17 @@ void pushPriorQ(priorq &Q, adrQ P){ // menambahkan elemen baru ke priority queue
         P->next = head(Q);
         head(Q) = P;
         if (tail(Q) == NULL) {
-            tail(Q) = P;  // Jika queue kosong, tail juga harus diperbarui
-        } else {
-            tail(Q)->next = P; // Tail pointer diubah jika queue tidak kosong
-            tail(Q) = P;        // Pastikan tail terbaru adalah P
+            tail(Q) = P;
         }
     } else {
         adrQ R = head(Q);
-        adrQ T = NULL;
-        while (R != NULL && P->jarak >= R->jarak) {
-            T = R;
+        while (R->next != NULL && R->next->jarak <= P->jarak) {
             R = R->next;
         }
-        P->next = R;
-        if (T != NULL) {
-            T->next = P;
+        P->next = R->next;
+        R->next = P;
+        if (P->next == NULL) {
+            tail(Q) = P;
         }
     }
 }
@@ -558,7 +546,7 @@ void displayMenu() { // menampilkan menu pilihan untuk program utama
     cout << "| 5. Cari Rute Alternatif                              |\n";
     cout << "| 6. Menghapus Jalan                                   |\n";
     cout << "| 7. Menghapus Gedung                                  |\n";
-    cout << "| 8. Menampilkan Rute Semua Gedung                     |\n";
+    cout << "| 8. Cari Persimpangan Utama                           |\n";
     cout << "| 0. Keluar                                            |\n";
     cout << "|======================================================|\n";
     cout << "Pilih menu: ";

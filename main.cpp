@@ -160,9 +160,7 @@ int main()
             cout << "-------------------------------------------------------\n" << endl;
         } else if (pilih == 8) {
             cout << "\n-------------------------------------------------------" << endl;
-            cout << "Masukkan nama gedung awal : ";
-            cin >> namaGedung;
-            ruteSemuaGedung(G, namaGedung);
+            cout << "Persimpangan utama : "<<nama(searchPersimpanganUtama(G))<<endl;
             cout << "-------------------------------------------------------\n" << endl;
         } else if (pilih == 0) {
             cout << "|======================================================|\n";
