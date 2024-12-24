@@ -152,7 +152,6 @@ void ruteTerpendek(graph G, string gedungAsal, string gedungTujuan){ //mencari d
             // Cek semua jalan dari gedung saat ini
             adrJalan jalan = checkJalanFromGedung(G, currentGedung);
             while (jalan != nullptr) {
-                    cout << jalan->asalGedung->nama<<" "<<jalan->destGedung->nama<<endl;
                 adrGedung tetangga = destG(jalan);
                 int jarakBaru = currentDist + jarak(jalan);
 
