@@ -354,7 +354,9 @@ int countGedung(graph G){ // menghitung jumlah gedung dalam graph G
 }
 
 
-adrGedung searchPersimpanganUtama(graph G){
+adrGedung searchPersimpanganUtama(graph G){ // mencari alamat gedung dengan jumlah jalan keluar terbanyak
+    /* Mengembalikan alamat gedung (persimpangan) dengan jumlah jalan keluar (asalG) terbanyak */
+
     adrGedung P = firstG(G);
     adrGedung maxJalan = P;
     int nJalanMax = 0;
@@ -504,18 +506,29 @@ bool priorQIsEmpty(priorq Q){ // mengecek apakah priority queue kosong
     return head(Q)==NULL&&tail(Q)==NULL;
 }
 
-adrRute createElmRute(adrGedung V){
+
+adrRute createElmRute(adrGedung V){  // membuat elemen rute baru dengan gedung V
+    /* mengembalikan alamat elemen rute baru dengan gedung V */
+
     adrRute P = new elmRute;
     P->ged = V;
     P->next = NULL;
     return P;
 }
 
-void createRute(rute &R){
+
+void createRute(rute &R){ // membuat rute kosong
+    /* I.S: R belum terdefinisi
+    F.S: R adalah rute kosong */
+
     R.first = NULL;
 }
 
-void insertFirstRute(rute &R, adrRute AR){
+
+void insertFirstRute(rute &R, adrRute AR){ // menambahkan elemen di awal rute
+    /* I.S: R mungkin kosong
+    F.S: AR menjadi elemen pertama R */
+
     if (R.first==NULL){
         R.first=AR;
     } else {
@@ -524,7 +537,11 @@ void insertFirstRute(rute &R, adrRute AR){
     }
 }
 
-void showRute(rute R){
+
+void showRute(rute R){ // menampilkan elemen-elemen rute secara berurutan
+    /* I.S: R terdefinisi
+    F.S: Menampilkan nama gedung pada rute dari awal hingga akhir */
+
     adrRute P = R.first;
     while(P->next!=NULL){
         cout << nama(P->ged)<<" -> ";
@@ -534,18 +551,17 @@ void showRute(rute R){
 }
 
 
-
 void displayMenu() { // menampilkan menu pilihan untuk program utama
     cout << "|======================================================|\n";
     cout << "|                         MENU                         |\n";
     cout << "|======================================================|\n";
-    cout << "| 1. Menampilkan Semua Gedung                          |\n";
-    cout << "| 2. Menampilkan Semua Jalan                           |\n";
+    cout << "| 1. Tampilkan Semua Gedung                            |\n";
+    cout << "| 2. Tampilkan Semua Jalan                             |\n";
     cout << "| 3. Cari Gedung                                       |\n";
     cout << "| 4. Cari Rute Terpendek                               |\n";
     cout << "| 5. Cari Rute Alternatif                              |\n";
-    cout << "| 6. Menghapus Jalan                                   |\n";
-    cout << "| 7. Menghapus Gedung                                  |\n";
+    cout << "| 6. Hapus Jalan                                       |\n";
+    cout << "| 7. Hapus Gedung                                      |\n";
     cout << "| 8. Cari Persimpangan Utama                           |\n";
     cout << "| 0. Keluar                                            |\n";
     cout << "|======================================================|\n";

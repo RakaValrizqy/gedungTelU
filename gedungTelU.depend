@@ -1,15 +1,13 @@
 # depslib dependency file v1.0
-1735030937 source:d:\study\semester 3\struktur data\tubes\gedungtelu\graph.cpp
+1735104380 source:d:\study\semester 3\struktur data\tubes\gedungtelu\graph.cpp
 	"graph.h"
 
-1735032564 d:\study\semester 3\struktur data\tubes\gedungtelu\graph.h
+1735104385 d:\study\semester 3\struktur data\tubes\gedungtelu\graph.h
 	<iostream>
-	<queue>
 	<map>
-	<vector>
 	<climits>
 
-1735033096 source:d:\study\semester 3\struktur data\tubes\gedungtelu\main.cpp
+1735103665 source:d:\study\semester 3\struktur data\tubes\gedungtelu\main.cpp
 	"graph.h"
 
 1735056519 source:d:\telyu\sems3\strukdat\tubes\gedungtelu\main.cpp

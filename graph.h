@@ -82,7 +82,7 @@ void showAllJalan(graph G); // menampilkan semua jalan yang ada dalam graph G
 adrJalan checkConnectedGedung(graph G, adrGedung V); // memeriksa apakah gedung terhubung dengan jalan dalam graph G
 void deleteGedung(graph &G,string nama); // menghapus sebuah gedung dari graph G
 void connectingGedung(graph &G,string gedungAsal, string gedungTujuan, int jarak); // menambahkan koneksi antara dua gedung dengan jarak tertentu
-adrGedung searchPersimpanganUtama(graph G);
+adrGedung searchPersimpanganUtama(graph G); // mencari alamat gedung dengan jumlah jalan keluar terbanyak
 int countGedung(graph G); // menghitung jumlah gedung dalam graph G
 adrJalan checkJalanFromGedung(graph G, adrGedung V); // memeriksa semua jalan yang berasal dari sebuah gedung
 void deleteGedungTemporary(graph &G, string nama); // menghapus sementara sebuah gedung dan jalan yang terhubung
@@ -93,9 +93,9 @@ void pushPriorQ(priorq &Q, adrQ P); // menambahkan elemen baru ke priority queue
 adrQ popPriorQ(priorq &Q); // menghapus elemen dengan prioritas tertinggi dari queue
 bool priorQIsEmpty(priorq Q); // mengecek apakah priority queue kosong
 void displayMenu(); // menampilkan menu pilihan untuk program utama
-adrRute createElmRute(adrGedung V);
-void createRute(rute &R);
-void insertFirstRute(rute &R, adrRute AR);
-void showRute(rute R);
+adrRute createElmRute(adrGedung V); // membuat elemen rute baru dengan gedung V
+void createRute(rute &R); // membuat rute kosong
+void insertFirstRute(rute &R, adrRute AR); // menambahkan elemen di awal rute
+void showRute(rute R); // menampilkan elemen-elemen rute secara berurutan
 
 #endif // GRAPH_H_INCLUDED
