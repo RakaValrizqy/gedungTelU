@@ -8,7 +8,7 @@ int main()
 
     initGraph(G);
 
-    string namaGedung, gedungAsal, gedungTujuan, gedungEmergency;
+    string namaGedung, deskripsiGedung, gedungAsal, gedungTujuan, gedungEmergency;
     int jarak;
 
     // Menambahkan gedung
@@ -162,6 +162,35 @@ int main()
             cout << "\n-------------------------------------------------------" << endl;
             cout << "Persimpangan utama : "<<nama(searchPersimpanganUtama(G))<<endl;
             cout << "-------------------------------------------------------\n" << endl;
+        } else if (pilih == 9) {
+            cout << "\n-------------------------------------------------------" << endl;
+            cout << "Masukkan nama gedung: ";
+            cin >> namaGedung;
+            cout << "Masukkan deskripsi gedung: ";
+            cin >> deskripsiGedung;
+            P = createGedung(namaGedung, deskripsiGedung);
+            addGedung(G, P);
+            cout << "Gedung " << namaGedung << " berhasil ditambahkan.\n";
+            cout << "-------------------------------------------------------\n" << endl;
+        } else if (pilih == 10) {
+            cout << "\n-------------------------------------------------------" << endl;
+            cout << "Masukkan nama gedung asal: ";
+            cin >> gedungAsal;
+            cout << "Masukkan nama gedung tujuan: ";
+            cin >> gedungTujuan;
+            cout << "Masukkan jarak antar gedung: ";
+            cin >> jarak;
+            if (searchGedung(G, gedungAsal) == NULL) {
+                cout << "Gedung asal " << gedungAsal << " tidak ditemukan. Tambahkan gedung terlebih dahulu.\n";
+                cout << "-------------------------------------------------------\n" << endl;
+            } else if (searchGedung(G, gedungTujuan) == NULL) {
+                cout << "Gedung tujuan " << gedungTujuan << " tidak ditemukan. Tambahkan gedung terlebih dahulu.\n";
+                cout << "-------------------------------------------------------\n" << endl;
+            } else {
+                connectingGedung(G, gedungAsal, gedungTujuan, jarak);
+                cout << "Jalan dari " << gedungAsal << " ke " << gedungTujuan << " berhasil ditambahkan.\n";
+                cout << "-------------------------------------------------------\n" << endl;
+            }
         } else if (pilih == 0) {
             cout << "\n|======================================================|\n";
             cout << "|                Keluar dari program ...               |\n";
@@ -169,7 +198,6 @@ int main()
         } else {
             cout << "Pilihan tidak valid, silakan coba lagi." << endl;
         }
-
     } while (pilih != 0);
 
     return 0;

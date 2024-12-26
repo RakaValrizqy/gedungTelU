@@ -563,6 +563,8 @@ void displayMenu() { // menampilkan menu pilihan untuk program utama
     cout << "| 6. Hapus Jalan                                       |\n";
     cout << "| 7. Hapus Gedung                                      |\n";
     cout << "| 8. Cari Persimpangan Utama                           |\n";
+    cout << "| 9. Tambah Gedung                                     |\n";
+    cout << "| 10. Tambah Jalan                                     |\n";
     cout << "| 0. Keluar                                            |\n";
     cout << "|======================================================|\n";
     cout << "Pilih menu: ";
